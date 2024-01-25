@@ -1,0 +1,11 @@
+{
+    "traits": {
+    "0x636f6c6f72000000000000000000000000000000000000000000000000000000": {
+      "displayName": "Color",
+      "dataType": {
+        "type": "string",
+        "acceptableValues": ["red", "green", "blue"]
+      }
+    }
+  }
+}
