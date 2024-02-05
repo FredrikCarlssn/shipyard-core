@@ -2,111 +2,111 @@
 pragma solidity 0.8.20;
 
 import {ERC721} from "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
+import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {ERC721Burnable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import {AccessControl} from "openzeppelin-contracts/access/AccessControl.sol";
 import {DynamicTraits} from "src/dynamic-traits/DynamicTraits.sol";
 
-contract ERC721DynamicTraits is DynamicTraits, Ownable, ERC721 {
-    uint256 public tokenIdCounter;
+error itemInTradeMode();
 
-    mapping(uint256 => string) public tokenIdToHash;
+contract ERC721DynamicTraits is
+    DynamicTraits,
+    AccessControl,
+    ERC721,
+    ERC721Enumerable,
+    ERC721URIStorage,
+    ERC721Burnable
+{
+    mapping(uint256 => bool) public s_tokenIdToMode; // False = gameMode, True = itemInTradeMode
+    uint256 private s_nextTokenId;
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant METADATA_ROLE = keccak256("METADATA_ROLE");
 
-    /*//////////////////////////////////////////////////////////////
-                           GET ALL ITEM DATA
-    //////////////////////////////////////////////////////////////*/
-    bytes32[] public itemTraitKeys = [
-        bytes32("1"),
-        bytes32("2"),
-        bytes32("3"),
-        bytes32("4"),
-        bytes32("5"),
-        bytes32("6"),
-        bytes32("7"),
-        bytes32("8"),
-        bytes32("9"),
-        bytes32("10"),
-        bytes32("11"),
-        bytes32("12"),
-        bytes32("13"),
-        bytes32("14"),
-        bytes32("15"),
-        bytes32("16"),
-        bytes32("17"),
-        bytes32("18"),
-        bytes32("19"),
-        bytes32("20"),
-        bytes32("21")
-    ]; // 1-21
+    event ModeChanged(uint256 tokenId, bool mode);
 
-    function getItemTraitKeys() public view returns (bytes32[] memory) {
-        return itemTraitKeys;
-    }
-
-    function getItemTraits(uint256 tokenId) public view returns (bytes32[] memory) {
-        return this.getTraitValues(tokenId, itemTraitKeys);
-    }
-
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        string memory tokenHash = tokenIdToHash[tokenId];
-        return string.concat("ipfs://", tokenHash);
-    }
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
 
-    constructor() Ownable(msg.sender) ERC721("ERC721DynamicTraits", "ERC721DT") {
+    constructor(address defaultAdmin, address minter) ERC721("RustySwords", "RUSTY") {
+        _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        _grantRole(MINTER_ROLE, minter);
+        _grantRole(METADATA_ROLE, minter);
         _setTraitMetadataURI("ipfs://QmQKFfyxVCDk7cpTLAV6fiDHFGUwBm7Ban5Yz7dFpUWefo");
     }
+
+    /*//////////////////////////////////////////////////////////////
+                             URI FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
+    }
+
+    function _baseURI() internal pure override returns (string memory) {
+        return "ipfs://";
+    }
+
+    function setTraitMetadataURI(string calldata _uri) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        // Set the new metadata URI.
+        _setTraitMetadataURI(_uri);
+    }
+
     /*//////////////////////////////////////////////////////////////
                                 MINTING
     //////////////////////////////////////////////////////////////*/
-
     function mintWithTraits(
         address _recipient,
-        uint256 _tokenId,
         string calldata _tokenHash,
         bytes32[] calldata _traitKeys,
         bytes32[] calldata _traitValues
-    ) public {
-        _mint(_recipient, _tokenId);
-        tokenIdToHash[_tokenId] = _tokenHash;
-        setMultipleTraitsWithEvent(_tokenId, _traitKeys, _traitValues);
+    ) public onlyRole(MINTER_ROLE) {
+        uint256 tokenId = s_nextTokenId++;
+        _safeMint(_recipient, tokenId);
+        _setTokenURI(tokenId, _tokenHash);
+        setMultipleTraits(tokenId, _traitKeys, _traitValues);
     }
 
     /*//////////////////////////////////////////////////////////////
-                             UPDATING ITEM
+                             UPDATING TRAITS 
     //////////////////////////////////////////////////////////////*/
-    function setTraitWithEvent(uint256 tokenId, bytes32 traitKey, bytes32 newValue) public onlyOwner {
-        super.setTrait(tokenId, traitKey, newValue);
+    //@DEV - NFT must be in gameMode to update traits / s_tokenIdToMode[_tokenId] == true
+    function setTraitWithEvent(uint256 _tokenId, bytes32 _traitKey, bytes32 _newValue) public onlyRole(METADATA_ROLE) {
+        if (s_tokenIdToMode[_tokenId] == true) revert itemInTradeMode();
+        super.setTrait(_tokenId, _traitKey, _newValue);
     }
 
-    function setTrait(uint256 tokenId, bytes32 traitKey, bytes32 newValue) public override onlyOwner {
-        _setTrait(tokenId, traitKey, newValue);
+    function setTrait(uint256 _tokenId, bytes32 _traitKey, bytes32 _newValue) public override onlyRole(METADATA_ROLE) {
+        if (s_tokenIdToMode[_tokenId] == true) revert itemInTradeMode();
+        _setTrait(_tokenId, _traitKey, _newValue);
     }
 
-    function setMultipleTraitsWithEvent(uint256 tokenId, bytes32[] calldata traitKeys, bytes32[] calldata traitValues)
+    function setMultipleTraitsWithEvent(uint256 _tokenId, bytes32[] memory _traitKeys, bytes32[] memory _traitValues)
         public
-        onlyOwner
+        onlyRole(METADATA_ROLE)
     {
-        uint256 traitsLength = traitKeys.length;
+        if (s_tokenIdToMode[_tokenId] == true) revert itemInTradeMode();
+        uint256 traitsLength = _traitKeys.length;
         for (uint256 i = 0; i < traitsLength; i++) {
-            setTrait(tokenId, traitKeys[i], traitValues[i]);
+            setTrait(_tokenId, _traitKeys[i], _traitValues[i]);
         }
     }
 
-    function setMultipleTraits(uint256 tokenId, bytes32[] calldata traitKeys, bytes32[] calldata traitValues)
+    function setMultipleTraits(uint256 _tokenId, bytes32[] calldata _traitKeys, bytes32[] calldata _traitValues)
         public
-        onlyOwner
+        onlyRole(METADATA_ROLE)
     {
-        uint256 traitsLength = traitKeys.length;
+        if (s_tokenIdToMode[_tokenId] == true) revert itemInTradeMode();
+        uint256 traitsLength = _traitKeys.length;
         for (uint256 i = 0; i < traitsLength; i++) {
-            _setTrait(tokenId, traitKeys[i], traitValues[i]);
+            _setTrait(_tokenId, _traitKeys[i], _traitValues[i]);
         }
     }
-    /*//////////////////////////////////////////////////////////////
-                                .......
+    /*////////////////////////////////////////////////////////////// 
+                            GET TRAITS
     //////////////////////////////////////////////////////////////*/
 
-    function getTraitValue(uint256 tokenId, bytes32 traitKey)
+    function getTraitValue(uint256 _tokenId, bytes32 _traitKey)
         public
         view
         virtual
@@ -114,13 +114,13 @@ contract ERC721DynamicTraits is DynamicTraits, Ownable, ERC721 {
         returns (bytes32 traitValue)
     {
         // Revert if the token doesn't exist.
-        _requireOwned(tokenId);
+        _requireOwned(_tokenId);
 
         // Call the internal function to get the trait value.
-        return DynamicTraits.getTraitValue(tokenId, traitKey);
+        return DynamicTraits.getTraitValue(_tokenId, _traitKey);
     }
 
-    function getTraitValues(uint256 tokenId, bytes32[] calldata traitKeys)
+    function getTraitValues(uint256 _tokenId, bytes32[] calldata _traitKeys)
         public
         view
         virtual
@@ -128,18 +128,45 @@ contract ERC721DynamicTraits is DynamicTraits, Ownable, ERC721 {
         returns (bytes32[] memory traitValues)
     {
         // Revert if the token doesn't exist.
-        _requireOwned(tokenId);
+        _requireOwned(_tokenId);
 
         // Call the internal function to get the trait values.
-        return DynamicTraits.getTraitValues(tokenId, traitKeys);
+        return DynamicTraits.getTraitValues(_tokenId, _traitKeys);
     }
 
-    function setTraitMetadataURI(string calldata uri) external onlyOwner {
-        // Set the new metadata URI.
-        _setTraitMetadataURI(uri);
+    /*//////////////////////////////////////////////////////////////
+                                  MODE
+    //////////////////////////////////////////////////////////////*/
+    function setMode(uint256 tokenId, bool mode) public onlyRole(METADATA_ROLE) {
+        s_tokenIdToMode[tokenId] = mode;
+        emit ModeChanged(tokenId, mode);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, DynamicTraits) returns (bool) {
-        return ERC721.supportsInterface(interfaceId) || DynamicTraits.supportsInterface(interfaceId);
+    /*//////////////////////////////////////////////////////////////
+                           SUPPORTSINTERFACE
+    //////////////////////////////////////////////////////////////*/
+    function supportsInterface(bytes4 _interfaceId)
+        public
+        view
+        virtual
+        override(ERC721, DynamicTraits, AccessControl, ERC721Enumerable, ERC721URIStorage)
+        returns (bool)
+    {
+        return (ERC721.supportsInterface(_interfaceId) || DynamicTraits.supportsInterface(_interfaceId));
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                           SOLIDITY OVERRIDES
+    //////////////////////////////////////////////////////////////*/
+    function _update(address to, uint256 tokenId, address auth)
+        internal
+        override(ERC721, ERC721Enumerable)
+        returns (address)
+    {
+        return super._update(to, tokenId, auth);
+    }
+
+    function _increaseBalance(address account, uint128 value) internal override(ERC721, ERC721Enumerable) {
+        super._increaseBalance(account, value);
     }
 }

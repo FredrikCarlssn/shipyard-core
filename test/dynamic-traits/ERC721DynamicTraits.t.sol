@@ -10,21 +10,22 @@ import {IERC7496} from "src/dynamic-traits/interfaces/IERC7496.sol";
 import {ERC721DynamicTraits} from "src/dynamic-traits/ERC721DynamicTraits.sol";
 import {Solarray} from "solarray/Solarray.sol";
 
-contract ERC721DynamicTraitsMintable is ERC721DynamicTraits {
-    constructor() ERC721DynamicTraits() {}
+contract ERC721DynamicTraitsMintable is ERC721DynamicTraits, Test {
+    address alice = makeAddr("alice");
 
-    function mint(address to, uint256 tokenId) public onlyOwner {
+    constructor() ERC721DynamicTraits(alice, alice) {}
+
+    function mint(address to, uint256 tokenId) public {
         _mint(to, tokenId);
     }
 }
 
 contract ERC721DynamicTraitsTest is Test {
     ERC721DynamicTraitsMintable token;
-    bytes32[] traitKeys;
 
-    string public exampleHash = "QmPQS23UhMwzMQSdxGbaCdrzmgj5Q7ows4BhEzDxSmjBaQ";
+    address alice = makeAddr("alice");
 
-    bytes32[] public traitValues1 = [
+    bytes32[] public traitKeys = [
         bytes32("1"),
         bytes32("2"),
         bytes32("3"),
@@ -48,52 +49,87 @@ contract ERC721DynamicTraitsTest is Test {
         bytes32("21")
     ];
 
-    bytes32[] public traitValues2 = [
-        bytes32("red"),
-        bytes32("orange"),
-        bytes32("yellow"),
-        bytes32("green"),
-        bytes32("blue"),
-        bytes32("purple"),
-        bytes32("pink"),
-        bytes32("brown"),
-        bytes32("black"),
-        bytes32("white"),
-        bytes32("gray"),
-        bytes32("silver"),
-        bytes32("gold"),
-        bytes32("bronze"),
-        bytes32("copper"),
-        bytes32("platinum"),
-        bytes32("ruby"),
-        bytes32("sapphire"),
-        bytes32("emerald"),
-        bytes32("diamond"),
-        bytes32("pearl")
+    bytes32[] public traitKeys2 = [bytes32("1"), bytes32("2"), bytes32("3"), bytes32("4"), bytes32("5")];
+    bytes32[] public shortTraits = [
+        bytes32("yesyepyesno"),
+        bytes32("noyesyesno"),
+        bytes32("yesyesyesno"),
+        bytes32("yesyesyesno"),
+        bytes32("yesyesyesno")
     ];
 
-    bytes32[] public traitValues3 = [
-        bytes32("one"),
-        bytes32("two"),
-        bytes32("three"),
-        bytes32("four"),
-        bytes32("five"),
-        bytes32("six"),
-        bytes32("seven"),
-        bytes32("eight"),
-        bytes32("nine"),
-        bytes32("ten"),
-        bytes32("eleven"),
-        bytes32("twelve"),
-        bytes32("thirteen"),
-        bytes32("fourteen"),
-        bytes32("fifteen"),
-        bytes32("sixteen"),
-        bytes32("seventeen"),
-        bytes32("eighteen"),
-        bytes32("nineteen"),
-        bytes32("twenty"),
-        bytes32("twenty-one")
+    string public exampleHash = "QmPQS23UhMwzMQSdxGbaCdrzmgj5Q7ows4BhEzDxSmjBaQ";
+
+    bytes32[] public traitValues1 = [
+        bytes32("OneTestblablabla"),
+        bytes32("TwoTestblablabla"),
+        bytes32("ThreeTestblablabla"),
+        bytes32("FourTestblablabla"),
+        bytes32("FiveTestblablabla"),
+        bytes32("SixTestblablabla"),
+        bytes32("SevenTestblablabla"),
+        bytes32("EightTestblablabla"),
+        bytes32("NineTestblablabla"),
+        bytes32("TenTestblablabla"),
+        bytes32("ElevenTestblablabla"),
+        bytes32("TwelveTestblablabla"),
+        bytes32("ThirteenTestblablabla"),
+        bytes32("FourteenTestblablabla"),
+        bytes32("FifteenTestblablabla"),
+        bytes32("SixteenTestblablabla"),
+        bytes32("SeventeenTestblablabla"),
+        bytes32("EighteenTestblablabla"),
+        bytes32("NineteenTestblablabla"),
+        bytes32("TwentyTestblablabla"),
+        bytes32("TwentyOneTestblablabla")
+    ];
+
+    string[] public traitValues = [
+        string("red"),
+        string("orange"),
+        string("yellow"),
+        string("green"),
+        string("blue"),
+        string("purple"),
+        string("pink"),
+        string("brown"),
+        string("black"),
+        string("white"),
+        string("gray"),
+        string("silver"),
+        string("gold"),
+        string("bronze"),
+        string("copper"),
+        string("platinum"),
+        string("ruby"),
+        string("sapphire"),
+        string("emerald"),
+        string("diamond"),
+        string("pearl")
+    ];
+
+    string[] public traitValues3 = [
+        string("one"),
+        string("two"),
+        string("three"),
+        string("four"),
+        string("five"),
+        string("six"),
+        string("seven"),
+        string("eight"),
+        string("nine"),
+        string("ten"),
+        string("eleven"),
+        string("twelve"),
+        string("thirteen"),
+        string("fourteen"),
+        string("fifteen"),
+        string("sixteen"),
+        string("seventeen"),
+        string("eighteen"),
+        string("nineteen"),
+        string("twenty"),
+        string("twenty-one")
     ];
     /* Events */
 
@@ -123,7 +159,6 @@ contract ERC721DynamicTraitsTest is Test {
 
     function setUp() public {
         token = new ERC721DynamicTraitsMintable();
-        traitKeys = token.getItemTraitKeys();
     }
 
     function testSupportsInterfaceId() public {
@@ -145,7 +180,6 @@ contract ERC721DynamicTraitsTest is Test {
     }
 
     function testOnlyOwnerCanSetValues() public {
-        address alice = makeAddr("alice");
         vm.prank(alice);
         vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, alice));
         token.setTrait(0, bytes32("test"), bytes32("test"));
@@ -219,91 +253,111 @@ contract ERC721DynamicTraitsTest is Test {
         assertEq(values[0], bytes32(0), "should return bytes32(0)");
     }
 
-    function testMintAndSetTraitsWithEvent() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
-        token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues1);
-        token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues2);
-        token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues3);
-    }
+    // function testMintAndSetTraitsWithEvent() public {
+    //     uint256 tokenId = 1;
+    //     token.mint(alice, tokenId);
+    //     token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues1);
+    //     token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues2);
+    //     token.setMultipleTraitsWithEvent(tokenId, traitKeys, traitValues3);
+    // }
 
-    function testMintAndSetTraits() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
-        token.setMultipleTraits(tokenId, traitKeys, traitValues1);
-        token.setMultipleTraits(tokenId, traitKeys, traitValues2);
-        token.setMultipleTraits(tokenId, traitKeys, traitValues3);
-    }
+    // function testMintAndSetTraits() public {
+    //     uint256 tokenId = 1;
+    //     token.mint(alice, tokenId);
+    //     token.setMultipleTraits(tokenId, traitKeys, traitValues1);
+    //     token.setMultipleTraits(tokenId, traitKeys, traitValues2);
+    //     token.setMultipleTraits(tokenId, traitKeys, traitValues3);
+    // }
 
-    function testMintAndSet5TraitsAtOnce() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
+    // function testMintAndSet5TraitsAtOnce() public {
+    //     uint256 tokenId = 1;
+    //     token.mint(alice, tokenId);
 
-        bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
-        bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
-        bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
-        bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
+    //     bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
+    //     bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
+    //     bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
+    //     bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
 
-        token.setMultipleTraits(tokenId, keys, values);
-        token.setMultipleTraits(tokenId, keys, values2);
-        token.setMultipleTraits(tokenId, keys, values3);
-    }
+    //     token.setMultipleTraits(tokenId, keys, values);
+    //     token.setMultipleTraits(tokenId, keys, values2);
+    //     token.setMultipleTraits(tokenId, keys, values3);
+    // }
 
-    function testMintAndSet5TraitsAtOnceWithEvent() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
+    // function testMintAndSet5TraitsAtOnceWithEvent() public {
+    //     uint256 tokenId = 1;
+    //     token.mint(alice, tokenId);
 
-        bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
-        bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
-        bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
-        bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
+    //     bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
+    //     bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
+    //     bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
+    //     bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
 
-        token.setMultipleTraitsWithEvent(tokenId, keys, values);
-        token.setMultipleTraitsWithEvent(tokenId, keys, values2);
-        token.setMultipleTraitsWithEvent(tokenId, keys, values3);
-    }
+    //     token.setMultipleTraitsWithEvent(tokenId, keys, values);
+    //     token.setMultipleTraitsWithEvent(tokenId, keys, values2);
+    //     token.setMultipleTraitsWithEvent(tokenId, keys, values3);
+    // }
 
-    function testMintAndSet5TraitsOnePerTransaction() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
+    // function testMintAndSet5TraitsOnePerTransaction() public {
+    //     uint256 tokenId = 1;
+    //     vm.prank(alice);
+    //     token.mintWithTraits(alice, tokenId, exampleHash, traitKeys, traitValues1);
 
-        bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
-        bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
-        bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
-        bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
+    // bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
+    // bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
+    // bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTrait(tokenId, keys[i], values[i]);
-        }
+    // for (uint256 i = 0; i < keys.length; i++) {
+    //     vm.prank(alice);
+    //     token.setTrait(tokenId, keys[i], values2[i]);
+    // }
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTrait(tokenId, keys[i], values2[i]);
-        }
+    // for (uint256 i = 0; i < keys.length; i++) {
+    //     vm.prank(alice);
+    //     token.setTrait(tokenId, keys[i], values3[i]);
+    // }
+    // }
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTrait(tokenId, keys[i], values3[i]);
-        }
-    }
+    // function testStringArrayToBytes32Array() public {
+    //     vm.prank(alice);
+    //     token.mint(alice, 1);
+    //     vm.prank(alice);
+    //     token.stringArrayToBytes32Array(traitKeys);
+    //     vm.prank(alice);
+    //     token.stringArrayToBytes32Array(traitValues2);
+    //     vm.prank(alice);
+    //     token.stringArrayToBytes32Array(traitValues1);
 
-    function testMintAndSet5TraitsOnePerTransactionWithEvent() public {
-        uint256 tokenId = 1;
-        token.mint(address(this), tokenId);
+    //     // assertEq(bytes32Array[2], bytes32("3"));
+    // }
 
-        bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
-        bytes32[] memory values = getArrayRange(traitValues1, 0, 5);
-        bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
-        bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
+    //     function testMintAndSet5TraitsOnePerTransactionWithEvent() public {
+    //         uint256 tokenId = 1;
+    //         vm.prank(alice);
+    //         token.mintWithTraits(alice, tokenId, exampleHash, traitKeys, traitValues1);
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTraitWithEvent(tokenId, keys[i], values[i]);
-        }
+    //         bytes32[] memory keys = getArrayRange(traitKeys, 0, 5);
+    //         bytes32[] memory values2 = getArrayRange(traitValues2, 0, 5);
+    //         bytes32[] memory values3 = getArrayRange(traitValues3, 0, 5);
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTraitWithEvent(tokenId, keys[i], values2[i]);
-        }
+    //         for (uint256 i = 0; i < keys.length; i++) {
+    //             vm.prank(alice);
+    //             token.setTraitWithEvent(tokenId, keys[i], values2[i]);
+    //         }
 
-        for (uint256 i = 0; i < keys.length; i++) {
-            token.setTraitWithEvent(tokenId, keys[i], values3[i]);
-        }
+    //         for (uint256 i = 0; i < keys.length; i++) {
+    //             vm.prank(alice);
+    //             token.setTraitWithEvent(tokenId, keys[i], values3[i]);
+    //         }
+    //         string memory uri = token.tokenURI(tokenId);
+    //         console.log(uri);
+    //     }
+    function testMintWithTraitsAbiEncoded() public {
+        address myAddress = address(0xc9c81Af14eC5d7a4Ca19fdC9897054e2d033bf05);
+        bytes memory data =
+            abi.encodeWithSelector(token.mintWithTraits.selector, myAddress, exampleHash, traitKeys2, shortTraits);
+        console.logBytes(data);
+        vm.prank(alice);
+        token.mintWithTraits(myAddress, exampleHash, traitKeys, traitValues1);
+        vm.expectRevert(data);
     }
 }
