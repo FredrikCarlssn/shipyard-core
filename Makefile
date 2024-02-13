@@ -25,3 +25,17 @@ SepoliaTestDeploy:
 
 match: 
 	@forge test --match-test ${TEST} --gas-report -vvvv
+
+mockItems: 
+	@forge create --rpc-url https://build.onbeam.com/rpc/testnet \
+	--private-key ${BEAM_TEST_PRIVATE_KEY} \
+	--verify \
+	--verifier sourcify \
+	src/ExampleDataContracts/mockcontractItems.sol:mockcontractItems \
+
+mockSkills: 
+	@forge create --rpc-url https://build.onbeam.com/rpc/testnet \
+	--private-key ${BEAM_TEST_PRIVATE_KEY} \
+	--verify \
+	--verifier sourcify \
+	src/ExampleDataContracts/mockcontractSkills.sol:mockcontractSkills \

@@ -9,6 +9,7 @@ import {AccessControl} from "openzeppelin-contracts/access/AccessControl.sol";
 import {DynamicTraits} from "src/dynamic-traits/DynamicTraits.sol";
 
 error itemInTradeMode();
+error NotTokenOwner();
 
 contract ERC721DynamicTraits is
     DynamicTraits,
@@ -33,7 +34,7 @@ contract ERC721DynamicTraits is
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
         _grantRole(MINTER_ROLE, minter);
         _grantRole(METADATA_ROLE, minter);
-        _setTraitMetadataURI("ipfs://QmQKFfyxVCDk7cpTLAV6fiDHFGUwBm7Ban5Yz7dFpUWefo");
+        // _setTraitMetadataURI("ipfs://QmQKFfyxVCDk7cpTLAV6fiDHFGUwBm7Ban5Yz7dFpUWefo");
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ contract ERC721DynamicTraits is
         return "ipfs://";
     }
 
-    function setTraitMetadataURI(string calldata _uri) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setTraitMetadataURI(string memory _uri) external onlyRole(DEFAULT_ADMIN_ROLE) {
         // Set the new metadata URI.
         _setTraitMetadataURI(_uri);
     }
@@ -57,9 +58,9 @@ contract ERC721DynamicTraits is
     //////////////////////////////////////////////////////////////*/
     function mintWithTraits(
         address _recipient,
-        string calldata _tokenHash,
-        bytes32[] calldata _traitKeys,
-        bytes32[] calldata _traitValues
+        string memory _tokenHash,
+        bytes32[] memory _traitKeys,
+        bytes32[] memory _traitValues
     ) public onlyRole(MINTER_ROLE) {
         uint256 tokenId = s_nextTokenId++;
         _safeMint(_recipient, tokenId);
@@ -92,7 +93,7 @@ contract ERC721DynamicTraits is
         }
     }
 
-    function setMultipleTraits(uint256 _tokenId, bytes32[] calldata _traitKeys, bytes32[] calldata _traitValues)
+    function setMultipleTraits(uint256 _tokenId, bytes32[] memory _traitKeys, bytes32[] memory _traitValues)
         public
         onlyRole(METADATA_ROLE)
     {
@@ -137,7 +138,8 @@ contract ERC721DynamicTraits is
     /*//////////////////////////////////////////////////////////////
                                   MODE
     //////////////////////////////////////////////////////////////*/
-    function setMode(uint256 tokenId, bool mode) public onlyRole(METADATA_ROLE) {
+    function setMode(uint256 tokenId, bool mode) public {
+        if (msg.sender != ERC721.ownerOf(tokenId)) revert NotTokenOwner();
         s_tokenIdToMode[tokenId] = mode;
         emit ModeChanged(tokenId, mode);
     }

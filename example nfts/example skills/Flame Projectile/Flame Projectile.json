@@ -1,0 +1,44 @@
+{
+    "description": "Ranged shot with burning projectile",
+    "external_url": "",
+    "image": "ipfs://QmSsckQSqAUVZ8a8zCg9fWJjZnnaPWkvydnSm9ZPw7BgAH",
+    "name": "Flame Projectiles",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Skill",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Caliber"
+        },
+        {
+            "trait_type": "Damage Type",
+            "value": "Fire"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Burn Chance +15-25%"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Gunner"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "2"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "1, 4, 6, 2"
+        }
+    ],
+    "Game ID": "Test"
+}

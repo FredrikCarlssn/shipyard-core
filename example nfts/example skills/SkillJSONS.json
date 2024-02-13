@@ -1,13 +1,12 @@
 {
     "Immutable->tokenUri": {
-        "description": "Test",
+        "description": "Ranged shot with burning projectile",
         "external_url": "",
         "image": "ipfs://QmNnAQA2tQhFKJt81CrPKgVFHPxH9nFFTFCkFkQTWU5SyD",
-        "name": "Long Sword 0201",
+        "name": "Flame Projectiles",
         "originallyMinted": "Dev",
         "itemLooted": "Dev",
-        "category": "Item",
-        "Base Item": "SwordUntiered_RapierSword",
+        "type": "Skill",
         "attributes": [
             {
                 "trait_type": "Season",
@@ -18,48 +17,28 @@
                 "value": "Legendary"
             },
             {
-                "trait_type": "Sub category",
-                "value": "Weapon"
-            },
-            {
-                "trait_type": "Class",
-                "value": "Melee"
-            },
-            {
-                "trait_type": "Sub class",
-                "value": "1hand"
-            },
-            {
-                "trait_type": "Theme",
-                "value": "Medium"
-            },
-            {
                 "trait_type": "Family",
-                "value": "Resilience"
+                "value": "Caliber"
             },
             {
-                "trait_type": "Level",
-                "value": "99"
-            },
-            {
-                "trait_type": "Damage type",
+                "trait_type": "Damage Type",
                 "value": "Fire"
             },
             {
+                "trait_type": "Implicit Mod",
+                "value": "BurnChance (+)15-25%"
+            },
+            {
                 "trait_type": "Class requirements",
-                "value": "Knight"
+                "value": "Gunner"
             },
             {
                 "trait_type": "Level requirements",
-                "value": "33"
+                "value": "2"
             },
             {
                 "trait_type": "Attribute requirements",
-                "value": "0, 38, 0, 0"
-            },
-            {
-                "trait_type": "Implicit Mod",
-                "value": "Test"
+                "value": "1, 4, 6, 2"
             }
         ],
         "Game ID": "Test"
@@ -67,147 +46,140 @@
     "Dynamic->TraitMetadataURI": {
         "traits": {
             "0x3100000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Quality",
+                "displayName": "Skill Level",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3200000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Damage type",
+                "displayName": "Damage Range",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3300000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Damage range",
+                "displayName": "Cooldown",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3400000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Attack speed",
-                "dataType": {
-                    "type": "string"
-                },
-                "validateOnSale": "requireEq"
-            },
-            "0x3500000000000000000000000000000000000000000000000000000000000000": {
                 "displayName": "Range",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
+            "0x3500000000000000000000000000000000000000000000000000000000000000": {
+                "displayName": "AoE Radius",
+                "dataType": {
+                    "type": "string"
+                },
+                "validateOnSale": "requireEq"
+            },
             "0x3600000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Defense",
+                "displayName": "Max Charges",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3700000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Max durability",
+                "displayName": "Resource Cost",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3800000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 1",
+                "displayName": "Duration",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3900000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 2",
+                "displayName": "Projectile Speed",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3130000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 3",
+                "displayName": "Mod Slot 1",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3131000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 4",
+                "displayName": "Mod Slot 2",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3132000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 5",
+                "displayName": "Mod Slot 3",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3133000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 6",
+                "displayName": "Mod Slot 4",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3134000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 7",
+                "displayName": "Mod Slot 5",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3135000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 8",
+                "displayName": "Mod Slot 6",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3136000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 9",
+                "displayName": "Mod Slot 7",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3137000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 10",
+                "displayName": "Mod Slot 8",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
-            "0x3138000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 11",
+            "0x313800000000000000000000000000000000000000000000000000000000000": {
+                "displayName": "Mod Slot 9",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3139000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 12",
+                "displayName": "Mod Slot 10",
                 "dataType": {
                     "type": "string"
                 },
                 "validateOnSale": "requireEq"
             },
             "0x3230000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 13",
-                "dataType": {
-                    "type": "string"
-                },
-                "validateOnSale": "requireEq"
-            },
-            "0x3231000000000000000000000000000000000000000000000000000000000000": {
-                "displayName": "Mod Slot 14",
+                "displayName": "Mod Slot 11",
                 "dataType": {
                     "type": "string"
                 },

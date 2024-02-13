@@ -1,0 +1,68 @@
+{
+    "description": "A sword sworn to uphold the valor and justice of its wielder, its blade gleams with the light of ancient oaths.",
+    "external_url": "",
+    "image": "ipfs://QmNdghAXJzvbEa9WHAHwcBduocWrz3vHGSUGuPDyBpM3wS",
+    "name": "Knight's Oathblade",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Item",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "category",
+            "value": "Weapon"
+        },
+        {
+            "trait_type": "Sub category",
+            "value": "Melee"
+        },
+        {
+            "trait_type": "Class",
+            "value": "Sword"
+        },
+        {
+            "trait_type": "Sub class",
+            "value": "1 Hand"
+        },
+        {
+            "trait_type": "Base Item",
+            "value": "Arming Sword"
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Precision"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Toughness"
+        },
+        {
+            "trait_type": "Level",
+            "value": "4"
+        },
+        {
+            "trait_type": "Damage type",
+            "value": "Physical"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Knight"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "33"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "1, 4, 5, 2"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Burn Chance +15-25%"
+        }
+    ],
+    "Game ID": "Test"
+}

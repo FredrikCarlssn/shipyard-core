@@ -1,0 +1,44 @@
+{
+    "description": "Burns enemies with AOE damage over time",
+    "external_url": "",
+    "image": "ipfs://QmXgjUrWutiqY2rMBjPSV5rx8NczRvUF8DoVev3N5JHJSy",
+    "name": "Inferno Assault",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Skill",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Toughness"
+        },
+        {
+            "trait_type": "Damage Type",
+            "value": "Fire"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Burn Chance +15-25%"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Gunner"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "10"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "5, 4, 8, 4"
+        }
+    ],
+    "Game ID": "Test"
+}

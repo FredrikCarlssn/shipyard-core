@@ -1,0 +1,48 @@
+{
+    "description": "Blinds enemies with an AOE effect",
+    "external_url": "",
+    "image": "ipfs://QmZ4uLfmxtkURiHo8qtqNiwCtoCZxdtb5yUvJkT6dKsBkR",
+    "name": "Blinding Flash",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Skill",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Brilliance"
+        },
+        {
+            "trait_type": "Damage Type",
+            "value": "Physical"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Stun Chance +30-50%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": " Stun Duration +60-100%"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Knight"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "22"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "2, 2, 4, 4"
+        }
+    ],
+    "Game ID": "Test"
+}

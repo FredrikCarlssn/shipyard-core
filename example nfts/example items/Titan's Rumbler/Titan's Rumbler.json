@@ -1,0 +1,72 @@
+{
+    "description": "Forged in the heart of a dying star, this massive sword delivers earth-shattering blows with each swing.",
+    "external_url": "",
+    "image": "ipfs://QmeUnZmaudty4CwMiSMmZVpUYk6ZqVw9iRzYJUByyrSXWR",
+    "name": "Titan's Rumbler",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Item",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "category",
+            "value": "Weapon"
+        },
+        {
+            "trait_type": "Sub category",
+            "value": "Melee"
+        },
+        {
+            "trait_type": "Class",
+            "value": "Sword"
+        },
+        {
+            "trait_type": "Sub class",
+            "value": "1 Hand"
+        },
+        {
+            "trait_type": "Base Item",
+            "value": "Heavy Blow Sword"
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Medium"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Damage"
+        },
+        {
+            "trait_type": "Level",
+            "value": "99"
+        },
+        {
+            "trait_type": "Damage type",
+            "value": "Fire"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Knight"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "52"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "22, 4, 3, 0"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Stun Chance +30-50%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Stun Duration +60-100%"
+        }
+    ],
+    "Game ID": "Test"
+}

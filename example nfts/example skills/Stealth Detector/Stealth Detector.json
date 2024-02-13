@@ -1,0 +1,44 @@
+{
+    "description": "Detector device that does something fun",
+    "external_url": "",
+    "image": "ipfs://QmYDb8xG9xkhXud15rY5JF9ENfTuCXobc8sYA8BkKPAFTw",
+    "name": "Stealth Detector",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Skill",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Trickery"
+        },
+        {
+            "trait_type": "Damage Type",
+            "value": "Physical"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "BurnChance (+)15-25%"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Gunner"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "41"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "23, 11, 8, 16"
+        }
+    ],
+    "Game ID": "Test"
+}

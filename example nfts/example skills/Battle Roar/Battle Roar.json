@@ -1,0 +1,52 @@
+{
+    "description": "Roar that intimidates nearby enemies",
+    "external_url": "",
+    "image": "ipfs://QmdZsmUw4jLWFZ4RSfBoNXNz9oJjUxKUixoeBoC1o9f6YY",
+    "name": "Battle Roar",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Skill",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Toughness"
+        },
+        {
+            "trait_type": "Damage Type",
+            "value": "Aethereal"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Physical Resistance Global +30-50%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Movement Speed Global +18-30%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Attack Speed Global +18-30%"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Knight"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "5"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "4, 5, 1, 2"
+        }
+    ],
+    "Game ID": "Test"
+}

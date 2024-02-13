@@ -1,0 +1,76 @@
+{
+    "description": "Infused with arcane energy, this long sword arcs with a mystical glow, slicing through the fabric of reality itself.",
+    "external_url": "",
+    "image": "ipfs://QmZtcURPiMtu939Kr7s9GdB6YSi1CvvFAATg4tETozbLS9",
+    "name": "Eldritch Crescent",
+    "originallyMinted": "Dev",
+    "itemLooted": "Dev",
+    "type": "Item",
+    "attributes": [
+        {
+            "trait_type": "Season",
+            "value": "0"
+        },
+        {
+            "trait_type": "category",
+            "value": "Weapon"
+        },
+        {
+            "trait_type": "Sub category",
+            "value": "Melee"
+        },
+        {
+            "trait_type": "Class",
+            "value": "Sword"
+        },
+        {
+            "trait_type": "Sub class",
+            "value": "1 Hand"
+        },
+        {
+            "trait_type": "Base Item",
+            "value": "Long Sword"
+        },
+        {
+            "trait_type": "Theme",
+            "value": "Attack Speed"
+        },
+        {
+            "trait_type": "Family",
+            "value": "Toughness"
+        },
+        {
+            "trait_type": "Level",
+            "value": "99"
+        },
+        {
+            "trait_type": "Damage type",
+            "value": "Physical"
+        },
+        {
+            "trait_type": "Class requirements",
+            "value": "Knight"
+        },
+        {
+            "trait_type": "Level requirements",
+            "value": "2"
+        },
+        {
+            "trait_type": "Attribute requirements",
+            "value": "1, 0, 5, 2"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Physical Resistance Global +30-50%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Movement Speed Global +18-30%"
+        },
+        {
+            "trait_type": "Implicit Mod",
+            "value": "Attack Speed Global +18-30%"
+        }
+    ],
+    "Game ID": "Test"
+}
